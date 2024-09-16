@@ -3,12 +3,15 @@ import axios from 'axios';
 import Header from './Header';
 import { Link ,useLocation } from 'react-router-dom';
 
-function Product() {
-  const location = useLocation();
+function category_product() {
+
+     const location = useLocation();
+     const {id} = location.state;
+     console.log(id)
   const [products, setproducts]=useState([]);
   useEffect(()=>{
   const list = async ()=>{
-  const res=await axios.post('http://localhost:8080/all_products');
+  const res=await axios.post('http://localhost:8080/category_products',{id:id});
     setproducts(res.data);
     console.log(res.data);
   }
@@ -40,7 +43,8 @@ fontSize:'50px'
 }
 </div>
 </>
+  
   )
 }
 
-export default Product
+export default category_product

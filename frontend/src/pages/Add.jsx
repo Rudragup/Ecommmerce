@@ -2,12 +2,14 @@ import React from 'react'
 import Header from './Header'
 import { useState } from 'react';
 import axios from 'axios';
+
 function Add() {
   const [formdata, setFormdata] = useState({
     name: '',
     image: '',
     description: '',
     isbestSeller:false,
+   
   });
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -24,6 +26,12 @@ function Add() {
 
   const userid=localStorage.getItem('loggedInId');
 
+  const [seller,setseller]=useState(false);
+const handleseller=()=>{
+ if(seller===false) setseller(true);
+ else setseller(false);
+  console.log(seller);
+}
   const handleSubmit = async (e) => {
     e.preventDefault();
    
@@ -34,7 +42,7 @@ function Add() {
     formData.append('file', fileData);
     formData.append('name', formdata.name);
     formData.append('description', formdata.description);
-    formData.append('isbestSeller', formdata.isbestSeller);
+    formData.append('isbestSeller', seller);
     formData.append('userId', userid)
 
     console.log(">>>>>>>>><<<<<<<<<<",formData)
@@ -103,8 +111,8 @@ catch(err) {
                 type="checkbox"
                 name="isBestseller"
                 className="checkbox"
-                checked={formdata.isBestseller}
-                onChange={handleChange}
+                checked={seller}
+                onChange={handleseller}
               />
             </label>
           </div>

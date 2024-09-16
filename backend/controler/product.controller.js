@@ -1,4 +1,5 @@
 const cate=require("../models/category.model");
+const product = require("../models/Product.model");
 const products=require("../models/Product.model");
 const category = async (req,res) => {
   try{
@@ -57,8 +58,8 @@ if(check.length>0){
 }
 
 const cat=await cate.find({"name":category});
-const categoryId=null;
 console.log(cat)
+const categoryId=cat[0]._id;
 
 
 const user= new products({name,image,price,quantity,description,isbestSeller,category,categoryId,userId});
@@ -101,4 +102,135 @@ const bestseller_product= async (req,res)=>{
         res.status(500).json({message: "Server Error"})
       }
 }
-module.exports = {category,Products,total,bestseller_category,bestseller_product}
+
+const all_products=async (req,res)=>{
+  try{
+    const {id}=req.body;
+    const data=await products.find({});
+    res.send(data);
+      }
+      catch(error){
+        console.error(error);
+        res.status(500).json({message: "Server Error"})
+      }
+}
+
+const edit_category=async (req,res)=>{
+try{
+  const {id}=req.body;
+  const check=await cate.findById({"_id":id});
+  res.send(check);
+}
+  catch(error){
+    console.error(error);
+    res.status(500).json({message: "Server Error"})
+  }
+}
+const edit_product=async (req,res)=>{
+  try{
+    const {id}=req.body;
+    const check=await product.findById({"_id":id});
+    res.send(check);
+  }
+    catch(error){
+      console.error(error);
+      res.status(500).json({message: "Server Error"})
+    }
+  }
+const changeCategory=async (req,res)=>{
+  let imagename="";
+  try{
+    if(req.file)
+      {
+    
+        const filePath = req.file.path;
+      
+        // Find the position of the last backslash
+        const lastBackslashIndex = filePath.lastIndexOf('\\');
+        
+        // Slice the string to get everything after the last backslash
+        const fileName = filePath.substring(lastBackslashIndex + 1);
+        
+        
+        
+        imagename=fileName;
+        
+      }
+      else{
+        imagename=req.body.image;
+      }
+    const {_id,name,description,isbestSeller}=req.body;
+    console.log(req.body)
+    const check=await cate.findByIdAndUpdate({_id},{name,imagename,description,isbestSeller});
+    res.send(check);
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({message: "Server Error"})
+  }
+}
+
+const changeProduct=async (req,res)=>{
+  console.log(req.body);
+  let imagename="";
+try{
+  if(req.file)
+  {
+
+    const filePath = req.file.path;
+  
+    // Find the position of the last backslash
+    const lastBackslashIndex = filePath.lastIndexOf('\\');
+    
+    // Slice the string to get everything after the last backslash
+    const fileName = filePath.substring(lastBackslashIndex + 1);
+    
+    
+    
+    imagename=fileName;
+    
+  }
+  else{
+    imagename=req.body.image;
+  }
+  const {id,name,price,quantity,description,isbestSeller,category}=req.body;
+  const check=await products.findByIdAndUpdate({"_id":id},{name,price,imagename,quantity,description,isbestSeller,category});
+  res.send(check);
+}
+  catch(error){
+    console.error(error);
+    res.status(500).json({message: "Server Error"})
+  }
+}
+
+const category_products=async (req,res)=>{
+  try{
+    const {id}=req.body;
+    const data=await products.find({categoryId:id});
+    res.send(data);
+      }
+      catch(error){
+        console.error(error);
+        res.status(500).json({message: "Server Error"})
+      }
+}
+
+const oneProduct=async (req,res)=>{
+  try{
+    const {id}=req.body;
+    const data=await products.findById({_id:id});
+    res.send(data);
+      }
+      catch(error){
+        console.error(error);
+        res.status(500).json({message: "Server Error"})
+      }
+}
+
+
+
+
+
+
+
+module.exports = {category,Products,total,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeCategory,changeProduct,category_products,oneProduct}
