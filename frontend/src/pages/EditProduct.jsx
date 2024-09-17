@@ -29,9 +29,9 @@ const [drop,setDrop]=useState([]);
 
 useEffect(()=>{
 const list= async () =>{
-    const res=await axios.post('http://localhost:8080/total');
-   console.log(res.data.data)
-   setDrop(res.data.data);
+    const res=await axios.post('http://localhost:8080/total1');
+   console.log(res.data)
+   setDrop(res.data);
 }
 
  list();

@@ -53,6 +53,8 @@ const login=async(req,res) => {
                 jwtToken,
                 email,
                 name: User.name,
+                _id:User._id,
+                isAdmin:User.isAdmin
                 
             })
     }
@@ -65,4 +67,16 @@ const login=async(req,res) => {
     }
 }
 
-module.exports={signup,login};
+const check = async(req, res) => {
+try{
+const {_id}=req.body;
+
+const User = await user.findById({_id});
+res.send(User);
+}
+catch (err) {
+    console.error(err);
+    res.status(500).json({message: "Server Error"})
+}
+}
+module.exports={signup,login,check};

@@ -12,6 +12,7 @@ import EditProduct from './pages/EditProduct';
 import Category_Product from './pages/Category_Product';
 import Show_products from './pages/Show_products';
 import { useNavigate } from 'react-router-dom';
+import Admin from './pages/Admin';
 export default function App() {
 
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Route path="/home" element={<Home/>} />
     <Route path="/" element ={<Signup />}/>
       <Route path="/add" element={<Add />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="/category" element={<Category />} />
       <Route path='/product' element={<Product />} />
       <Route path='/signup' element={<Signup />} />

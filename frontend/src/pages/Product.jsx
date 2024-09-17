@@ -4,16 +4,30 @@ import Header from './Header';
 import { Link ,useLocation } from 'react-router-dom';
 
 function Product() {
+  const [p, setp]=useState(1);
+  const [tp, settp]=useState(2);
   const location = useLocation();
   const [products, setproducts]=useState([]);
-  useEffect(()=>{
-  const list = async ()=>{
-  const res=await axios.post('http://localhost:8080/all_products');
-    setproducts(res.data);
-    console.log(res.data);
+useEffect(()=>{
+const list = async ()=>{
+const res=await axios.post('http://localhost:8080/all_products',{page:p});
+  setproducts(res.data.data);
+  settp(res.data.totalPages);
+  console.log(res.data);
+}
+list();
+},[p,setp])
+
+const prev = ()=>{
+  if(p>1){
+    setp(p-1);
   }
-  list();
-  },[])
+}
+const nex=()=>{
+  if(p<tp){
+    setp(p+1);
+  }
+}
   return (
 <>
 <Header />
@@ -33,11 +47,16 @@ fontSize:'50px'
     <p>Quntity:  {product.quantity}</p>
     <p>Category:  {product.category}</p>
     <Link to="/show_product"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Show  Product</Link>
-    <Link to="/editProduct"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Edit</Link>
+   
     </div>
   )})
  
 }
+</div>
+<div className='w-100 flex justify-center items-center'> 
+  <button onClick={prev}   className=' w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400'>Previous</button>
+  <span className=' w-14 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400'>{p}</span>
+  <button onClick={nex}  className=' w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400'>Next</button>
 </div>
 </>
   )

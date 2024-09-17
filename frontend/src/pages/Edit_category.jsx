@@ -16,7 +16,7 @@ export default function Edit_category() {
 useEffect( ()=>{
 const list=async ()=>{
   const res=await axios.post('http://localhost:8080/editCategory',{id});
-console.log(res.data);
+  console.log(res.data);
     changeImage(res.data.image);
     changeName(res.data.name);
     changeBestseller(res.data.isbestSeller);

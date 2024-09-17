@@ -14,14 +14,18 @@ function Login() {
     }
         try{
              const res =await axios.post('http://localhost:8080/login',{"email":email,"password":password});
-           const {success, message, jwtToken, name, error}=res.data;
+           const {success, message, jwtToken, name,_id,isAdmin, error}=res.data;
             console.log(res.data);
            if(success) {
             alert(message);
             localStorage.setItem('token', jwtToken);
             localStorage.setItem('loggedInUser', name);
+            localStorage.setItem('loggedInId',_id);
             setTimeout(() => {
-                navigate('/home')
+              if(isAdmin==true){
+                navigate('/admin')
+              }
+             else   navigate('/home')
             }, 1000)
            }
            else if (error) {

@@ -1,0 +1,30 @@
+.upper{
+    display: flex;
+}
+
+.upper button{
+margin-left:25px ;
+}
+
+.middle{
+    margin-top: 20px;
+}
+.middle .bor{
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.middle .bor .inside{
+    border: 2px solid red;
+    display: flex;
+    width: 100vw;
+ 
+}
+.middle h2,p{
+  
+    margin: 25px !important;
+    color: rgb(167, 167, 250);
+    
+}
+

@@ -4,7 +4,18 @@ import Header from './Header';
 import { Link ,useLocation } from 'react-router-dom';
 
 function category_product() {
-
+const userid=localStorage.getItem('loggedInId');
+  console.log(userid)
+  const [isAdmin,setisAdmin]=useState(false);
+  useEffect(()=>{
+    const list= async ()=>{
+      const res=await axios.post('http://localhost:8080/checkAdmin',{"_id":userid});
+      console.log(userid);
+      console.log(res.data.isAdmin);
+      setisAdmin(res.data.isAdmin);
+    }
+    list();
+  },[])
      const location = useLocation();
      const {id} = location.state;
      console.log(id)
@@ -17,6 +28,11 @@ function category_product() {
   }
   list();
   },[])
+
+const Edit= (()=>{
+
+})
+
   return (
 <>
 <Header />
@@ -36,11 +52,18 @@ fontSize:'50px'
     <p>Quntity:  {product.quantity}</p>
     <p>Category:  {product.category}</p>
     <Link to="/show_product"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Show  Product</Link>
-    <Link to="/editProduct"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Edit</Link>
+   {
+   isAdmin ? <Link to="/editProduct"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Edit</Link>
+   :
+   null
+   }
     </div>
   )})
  
 }
+
+
+
 </div>
 </>
   

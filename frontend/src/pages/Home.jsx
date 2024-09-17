@@ -52,6 +52,9 @@ Product
           }
         </div>
       </div>
+      <br />
+      <br />
+      
       <h1  style={{
 fontSize:'50px'
 }}>Best Product</h1>
@@ -68,7 +71,7 @@ fontSize:'50px'
             <p>Price: {product.price}</p>
             <p>Quntity: {product.quantity}</p>
             <p>Category :{product.category}</p>
-            <br />
+         
             <Link to="/show_product"  state={{id:product._id}} className="w-17 bg-yellow-300 text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400">Show  Product</Link>
             
             </div>

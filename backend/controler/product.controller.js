@@ -1,6 +1,6 @@
 const cate=require("../models/category.model");
 const product = require("../models/Product.model");
-const products=require("../models/Product.model");
+const products = require("../models/Product.model");
 const category = async (req,res) => {
   try{
 // addding category
@@ -71,10 +71,21 @@ catch(error){
 }
 }
 
+
 const total=async (req, res)=>{
   try{
-    const data=await cate.find({});
-    res.status(200).json({data});
+    // add pagination
+    const {page} =req.body;
+    const limit = parseInt(req.query.limit) || 5;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const total = await cate.countDocuments();
+    const products = await cate.find().skip(startIndex).limit(limit);
+    res.json({
+      products,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+    });
   }
   catch(error){
     console.error(error);
@@ -105,9 +116,18 @@ const bestseller_product= async (req,res)=>{
 
 const all_products=async (req,res)=>{
   try{
-    const {id}=req.body;
-    const data=await products.find({});
-    res.send(data);
+    // pagination 
+    const {page} =req.body || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const total = await product.countDocuments();
+    const data = await product.find().skip(startIndex).limit(limit);
+    res.json({
+      data,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+    });
       }
       catch(error){
         console.error(error);
@@ -117,9 +137,10 @@ const all_products=async (req,res)=>{
 
 const edit_category=async (req,res)=>{
 try{
+  console.log(req.body);
   const {id}=req.body;
   const check=await cate.findById({"_id":id});
-  res.send(check);
+  res.status(200).send(check);
 }
   catch(error){
     console.error(error);
@@ -138,6 +159,7 @@ const edit_product=async (req,res)=>{
     }
   }
 const changeCategory=async (req,res)=>{
+  console.log(req.body);
   let imagename="";
   try{
     if(req.file)
@@ -206,7 +228,7 @@ try{
 const category_products=async (req,res)=>{
   try{
     const {id}=req.body;
-    const data=await products.find({categoryId:id});
+    const data=await product.find({categoryId:id});
     res.send(data);
       }
       catch(error){
@@ -230,7 +252,11 @@ const oneProduct=async (req,res)=>{
 
 
 
+const total1=async (req,res)=>{
+const data=await cate.find({});
+  res.send(data);
+}
 
 
 
-module.exports = {category,Products,total,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeCategory,changeProduct,category_products,oneProduct}
+module.exports = {category,Products,total,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeCategory,changeProduct,category_products,oneProduct,total1}

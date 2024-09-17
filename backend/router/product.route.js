@@ -1,11 +1,12 @@
 const router = require('express').Router();
-const {category,Products,total,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeProduct,changeCategory,category_products,oneProduct} = require('../controler/product.controller')
+const {category,Products,total,total1,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeProduct,changeCategory,category_products,oneProduct} = require('../controler/product.controller')
 const upload =require('../middleware/image.valadion');
 
 
 router.post('/category',upload.single('file'),category);
 router.post('/product',upload.single('file'),Products);
 router.post('/total',total);
+router.post('/total1',total1);
 router.post('/bestseller_category',bestseller_category);
 router.post('/bestseller_product',bestseller_product);
 router.post('/all_products',all_products);

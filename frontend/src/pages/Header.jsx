@@ -24,8 +24,6 @@ function Header() {
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-6">
           <Link to="/home" className="hover:text-yellow-300">Home</Link>
-          <Link to="/Add" className="hover:text-yellow-300">Add category</Link>
-          <Link to="/Add_product" className="hover:text-yellow-300">Add Product</Link>
           <Link to="/Product" className="hover:text-yellow-300">Product</Link>
           <Link to="/Category" className="hover:text-yellow-300">Category</Link>
         </div>
