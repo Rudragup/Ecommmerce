@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Header from './Header';
 import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 function Category() {
 const [category,setCategory]=useState([]);
 const userid=localStorage.getItem("loggedInId");
@@ -9,12 +10,22 @@ console.log(userid)
 const[page,setpage]=useState(1);
 const[totalPages,settotalPages]=useState();
 
+const location = useLocation();
+const navigate = useNavigate(); 
+
+useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const pageFromUrl = queryParams.get('page');
+  console.log(pageFromUrl);
+  setpage(pageFromUrl?parseInt(pageFromUrl,totalPages+1):1);
+}, [location]);
+
 useEffect(()=>{
   const list = async ()=>{
     const res=await axios.post('http://localhost:8080/total',{page:page});
    console.log(res.data);
-    setCategory(res.data.products);
-    settotalPages(res.data.totalPages);
+   setCategory(res.data.products);
+   settotalPages(res.data.totalPages);
   }
   list();
 },[page,setpage])
@@ -22,12 +33,16 @@ useEffect(()=>{
 const previous = ()=>{
   if(page>1){
     setpage(page-1);
+    console.log(page-1);
+    navigate(`?page=${page-1}`);
   }
 }
 
 const Next = ()=>{
   if(page<totalPages){
     setpage(page+1);
+    console.log(page+1);
+    navigate(`?page=${page+1}`);
   }
 }
 

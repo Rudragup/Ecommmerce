@@ -2,16 +2,29 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Header from './Header';
-import { Link,useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './admin.css'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Admin() {
+
+const location = useLocation();
+const navigate = useNavigate(); 
+
 const [category,setCategory]=useState([]);
 const userid=localStorage.getItem("loggedInId");
 console.log(userid)
 
 const[page,setpage]=useState(1);
 const[totalPages,settotalPages]=useState();
+
+useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const pageFromUrl = queryParams.get('page');
+  console.log(pageFromUrl);
+  setpage(pageFromUrl?parseInt(pageFromUrl,totalPages+1):1);
+}, [location]);
+
 
 useEffect(()=>{
   const list = async ()=>{
@@ -26,17 +39,30 @@ useEffect(()=>{
 const previous = ()=>{
   if(page>1){
     setpage(page-1);
+    console.log(page-1);
+    navigate(`?page=${page-1}`);
   }
 }
 
 const Next = ()=>{
   if(page<totalPages){
     setpage(page+1);
+    console.log(page+1);
+    navigate(`?page=${page+1}`);
   }
 }
 const [products, setproducts]=useState([]);
 const [p, setp]=useState(1);
 const [tp, settp]=useState(2);
+
+useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const pageFromUrl = queryParams.get('p');
+  console.log(pageFromUrl);
+  setp(pageFromUrl?parseInt(pageFromUrl,tp+2):1);
+  console.log(p)
+}, [location]);
+
 useEffect(()=>{
 const list = async ()=>{
 const res=await axios.post('http://localhost:8080/all_products',{page:p});
@@ -50,11 +76,13 @@ list();
 const prev = ()=>{
   if(p>1){
     setp(p-1);
+     navigate(`?p=${p-1}`);
   }
 }
 const nex=()=>{
   if(p<tp){
     setp(p+1);
+    navigate(`?p=${p+1}`);
   }
 }
 const [data,setdata] =useState([]);
