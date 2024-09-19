@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import { Link } from 'react-router-dom'
+import checkAdmin from '../utils/checkAdmin';
 function Header() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    setUser(localStorage.getItem("loggedInUser"));
-    console.log("User logged in  " + user);
-  }, [])
-  const userid = localStorage.getItem("loggedInId");
-  console.log(userid)
-  const [data, setdata] = useState([]);
+
+  const [user, setUser] = useState(false);
   const [admin, setisAdmin] = useState(false);
+
+
   useEffect(() => {
-    const list = async () => {
-      const res = await axios.post('http://localhost:8080/checkAdmin', { "_id": userid });
-      console.log(userid);
-      console.log(res.data)
-      setdata(res.data);
-      console.log(res.data.isAdmin);
-      setisAdmin(res.data.isAdmin);
-    }
-    list();
-  }, [])
+  
+      setUser(localStorage.getItem("loggedInUser"));
+   if(localStorage.getItem("loggedInUser"))   setisAdmin(checkAdmin());
+    
+  })
+
+
+
+
+
 
   return (
     <>
@@ -45,7 +40,42 @@ function Header() {
           </div>
 
 
-          <h1>Welcome {user}</h1>
+          {/* // >>>>>>>>>>>>>>>  adding button on headers <<<<<<<<<<<<<<<<< */}
+          {
+            user ? (
+              <div className="flex items-center space-x-4">
+                <p className="text-white hover:text-yellow-300">Hello {user}</p>
+                <button onClick={() => {
+                  localStorage.removeItem("loggedInUser");
+                  localStorage.removeItem("loggedInId");
+                  localStorage.removeItem("token");
+                  setUser(null);
+                  setisAdmin(false);
+                  window.location.href = "/home";
+
+                }} className="text-white hover:text-yellow-300">Logout</button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link to="/login" className="text-white hover:text-yellow-300">Login</Link>
+                <Link to="/Signup" className="text-white hover:text-yellow-300">Signup</Link>
+              </div>
+            )
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           {/* Mobile Menu Button */}
           <button className="md:hidden flex items-center text-white">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

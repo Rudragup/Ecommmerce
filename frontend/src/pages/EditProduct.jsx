@@ -29,7 +29,7 @@ const [drop,setDrop]=useState([]);
 
 useEffect(()=>{
 const list= async () =>{
-    const res=await axios.post('http://localhost:8080/total1');
+    const res=await axios.get('http://localhost:8080/Category_details');
    console.log(res.data)
    setDrop(res.data);
 }
@@ -39,12 +39,12 @@ const list= async () =>{
 
 useEffect(()=>{
 const List=async ()=>{
-    const res=await axios.post('http://localhost:8080/editProduct',{id});
+    const res=await axios.get('http://localhost:8080/editProduct?id='+id);
     console.log(res.data);
     setdata(res.data);
  
 
-}
+} 
 List();
 },[])
 console.log(data)
@@ -65,7 +65,7 @@ console.log(data)
         formData.append('category', data.category);
         console.log(formData);
 try{
-    const res=await axios.post('http://localhost:8080/changeProduct',formData);
+    const res=await axios.patch('http://localhost:8080/changeProduct',formData);
     console.log(res.data);
     }
     catch(e) {
@@ -75,7 +75,7 @@ try{
       };
   return (
     <>
-    <Header />
+ 
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-lg p-8 space-y-4 bg-white rounded shadow-lg">
         <h2 className="text-2xl font-bold text-center">Edit Product</h2>

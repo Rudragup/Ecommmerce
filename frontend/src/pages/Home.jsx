@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import Header from './Header'
+
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../css/home.css'
 function Home() {
   const[bestCategory,setCategory] =useState([]);
   const [bestProduct,setbestProduct]=useState([]);
 
   useEffect(()=>{
     const list = async ()=>{
-      const res=await axios.post('http://localhost:8080/bestseller_category');
+      const res=await axios.get('http://localhost:8080/bestseller_category');
         setCategory(res.data);
         console.log(res.data);
       }
       list();
       console.log(bestProduct);
-  })
+  },[])
   useEffect(()=>{
   const list = async ()=>{
-  const res=await axios.post('http://localhost:8080/bestseller_product');
+  const res=await axios.get('http://localhost:8080/bestseller_product');
     setbestProduct(res.data);
     console.log(res.data);
    
@@ -26,8 +27,8 @@ function Home() {
   console.log(bestProduct);
   },[])
   return (
-    <div>
-      <Header />
+    <div className='home1'>
+      
       <h1  style={{
 fontSize:'50px'
 }}>Best Categories</h1>

@@ -1,19 +1,31 @@
 const router = require('express').Router();
-const {category,Products,total,total1,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeProduct,changeCategory,category_products,oneProduct} = require('../controler/product.controller')
+const {category,Products,all_category,Category_details,bestseller_category,bestseller_product,all_products,edit_category,edit_product,changeProduct,changeCategory,category_products,oneProduct} = require('../controler/product.controller')
 const upload =require('../middleware/image.valadion');
 
 
 router.post('/category',upload.single('file'),category);
 router.post('/product',upload.single('file'),Products);
-router.post('/total',total);
-router.post('/total1',total1);
-router.post('/bestseller_category',bestseller_category);
-router.post('/bestseller_product',bestseller_product);
-router.post('/all_products',all_products);
-router.post('/editCategory',edit_category);
-router.post('/editProduct',edit_product);
-router.post('/changeProduct',upload.single('file'),changeProduct);
-router.post('/changeCategory',upload.single('file'),changeCategory);
-router.post('/oneproduct',oneProduct);
-router.post('/category_products',category_products);
+
+
+router.get('/all_category',all_category);
+router.get('/all_products',all_products);
+router.get('/Category_details',Category_details);
+
+
+router.get('/bestseller_category',bestseller_category);
+router.get('/bestseller_product',bestseller_product);
+
+
+router.get('/editCategory',edit_category);
+router.get('/editProduct',edit_product);
+
+
+router.patch('/changeProduct',upload.single('file'),changeProduct);
+router.patch('/changeCategory',upload.single('file'),changeCategory);
+
+
+router.get('/oneproduct',oneProduct);
+router.get('/category_products',category_products);
+
+
 module.exports = router;

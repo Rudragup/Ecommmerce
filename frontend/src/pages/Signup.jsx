@@ -29,9 +29,7 @@ function Signup() {
              const { success, message, error } = res.data;
              if (success) {
                 alert(message);
-                setTimeout(() => {
-                    navigate('/login')
-                }, 1000)
+                navigate('/login');
             } 
             else if (error) {
                 const details = error?.details[0].message;

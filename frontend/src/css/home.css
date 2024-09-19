@@ -1,0 +1,15 @@
+.home1{
+    background-color: rgb(18, 1, 65);
+    width: fit-content;
+    height: 150vh;
+}
+.home1 h1{
+    color: white;
+   
+    text-align: center;
+    
+}
+
+.home1 .Home{
+    background-color: rgb(2, 11, 61);
+}

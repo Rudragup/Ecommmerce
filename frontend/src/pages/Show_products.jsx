@@ -12,7 +12,7 @@ const [products, setProducts] = useState();
 const[image,setImage]=useState();
 useEffect(()=>{
 const list=async () => {
-const res=await axios.post('http://localhost:8080/oneproduct',{id});
+const res=await axios.get('http://localhost:8080/oneproduct?id='+id);
 
 console.log(res.data);
 setProducts(res.data)
@@ -23,7 +23,7 @@ list();
 
   return (
    <>
-    <Header />
+   
     <div style={{border:'2px solid red',display:'flex'}}>
     <img src={`http://localhost:8080/images/${image}`}alt="hiii" srcset="" />
 <div>    <h1> Name:                {products?.name}</h1>

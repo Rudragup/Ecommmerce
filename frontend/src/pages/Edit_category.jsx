@@ -15,7 +15,7 @@ export default function Edit_category() {
 
 useEffect( ()=>{
 const list=async ()=>{
-  const res=await axios.post('http://localhost:8080/editCategory',{id});
+  const res=await axios.get(`http://localhost:8080/editCategory?id=${id}`);
   console.log(res.data);
     changeImage(res.data.image);
     changeName(res.data.name);
@@ -38,7 +38,7 @@ const handleSubmit =async(e)=>{
   formData.append('isbestSeller', bestseller);
   console.log(formData);
 try{
-const res=await axios.post('http://localhost:8080/changeCategory',formData);
+const res=await axios.patch('http://localhost:8080/changeCategory',formData);
 console.log(res.data);
 }
 catch(e){
@@ -54,7 +54,7 @@ const handlename=(e)=>{changeName(e.target.value)};
 const handledescription=(e)=>{changeDescription(e.target.value)};
   return (
     <>
-    <Header />
+   
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
          <div className="w-full max-w-lg p-8 space-y-4 bg-white rounded shadow-lg">
            <h2 className="text-2xl font-bold text-center">Edit Categories</h2>

@@ -10,6 +10,8 @@ function Product() {
   const [tp, settp] = useState(1);
   const location = useLocation();
   const [products, setproducts] = useState([]);
+
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const pageFromUrl = queryParams.get('p');
@@ -17,9 +19,11 @@ function Product() {
     setp(pageFromUrl ? parseInt(pageFromUrl, tp + 5) : 1);
     console.log(p)
   }, [location]);
+
+
   useEffect(() => {
     const list = async () => {
-      const res = await axios.post('http://localhost:8080/all_products', { page: p });
+      const res = await axios.get(`http://localhost:8080/all_products?page=${p}`);
       setproducts(res.data.data);
       settp(res.data.totalPages);
       console.log(res.data);
@@ -42,7 +46,6 @@ function Product() {
   }
   return (
     <>
-      <Header />
       <h1 style={{
         fontSize: '50px'
       }}>All products</h1>

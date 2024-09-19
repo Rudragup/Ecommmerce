@@ -22,6 +22,10 @@ userid:{
 }
 
 },{timestamp:true});
+Schema.pre('save', function(next) {
+    console.log('Middleware on parent document'); 
+    next();// Will be executed
+  });
 const category=mongoose.model('Category',Schema);
 
 module.exports=category;

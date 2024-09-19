@@ -9,7 +9,7 @@ console.log(name,email,password);
 const check = await user.find({"email":email});
 if(!check){
     return res.status(200).json({message:"Email already exists",success:false});
-}
+        }
 
 
 const model= new user({name,email,password});
@@ -17,11 +17,11 @@ model.password=await bcrypt.hash(password,10) ;
 await model.save({name,email,password});
 
 res.status(200).json({message:"User registered successfully",success:true});
-}
+    }
 catch(err){
-    console.log(err);
+        console.log(err);
     res.status(200).json({message:"email aleready exist",success:false});
-}
+    }
 }
 
 const login=async(req,res) => {
@@ -39,14 +39,14 @@ const login=async(req,res) => {
             return res.status(200)
                 .json({ message: "wrong Password", success: false });
         }
-      
+
         const jwtToken = jwt.sign(
-            { email: User.email, _id: User._id },
+            { email: User.email, _id: User._id,admin:User.isAdmin },
             "Secert-123",
             { expiresIn: '24h' },
-                  )
-    console.log(jwtToken)
-       return res.status(200)
+        )
+        console.log(jwtToken)
+        return res.status(200)
             .json({
                 message: "Login Success",
                 success: true,
@@ -55,7 +55,7 @@ const login=async(req,res) => {
                 name: User.name,
                 _id:User._id,
                 isAdmin:User.isAdmin
-                
+
             })
     }
     catch (err) {
@@ -67,16 +67,4 @@ const login=async(req,res) => {
     }
 }
 
-const check = async(req, res) => {
-try{
-const {_id}=req.body;
-
-const User = await user.findById({_id});
-res.send(User);
-}
-catch (err) {
-    console.error(err);
-    res.status(500).json({message: "Server Error"})
-}
-}
-module.exports={signup,login,check};
+module.exports={signup,login};

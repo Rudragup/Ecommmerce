@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Header from './Header';
 import { Link } from 'react-router-dom';
-import './admin.css'
+import '../css/admin.css'
 import { useLocation, useNavigate } from 'react-router-dom';
+import checkAdmin from '../utils/checkAdmin';
 
 function Admin() {
 
@@ -28,7 +29,7 @@ useEffect(() => {
 
 useEffect(()=>{
   const list = async ()=>{
-    const res=await axios.post('http://localhost:8080/total',{page:page});
+    const res=await axios.get(`http://localhost:8080/all_category?page=${page}`);
    console.log(res.data);
     setCategory(res.data.products);
     settotalPages(res.data.totalPages);
@@ -65,7 +66,7 @@ useEffect(() => {
 
 useEffect(()=>{
 const list = async ()=>{
-const res=await axios.post('http://localhost:8080/all_products',{page:p});
+const res=await axios.get(`http://localhost:8080/all_products?page=${p  }`);
   setproducts(res.data.data);
   settp(res.data.totalPages);
   console.log(res.data);
@@ -85,24 +86,12 @@ const nex=()=>{
     navigate(`?p=${p+1}`);
   }
 }
-const [data,setdata] =useState([]);
-const [admin,setisAdmin] =useState(false);
-useEffect(()=>{
-  const list= async ()=>{
-    const res=await axios.post('http://localhost:8080/checkAdmin',{"_id":userid});
-    console.log(userid);
-   console.log(res.data)
-    setdata(res.data);
-    console.log(res.data.isAdmin);
-    setisAdmin(res.data.isAdmin);
-  }
-  list();
-},[])
+
+
   return (
 <>
-<Header />
-{
-  admin?
+
+
 <div>
 <div className='upper'>
 <h1  style={{
@@ -176,9 +165,7 @@ fontSize:'30px'
 </div>
 </div>
 </div>
-: 
-  <h1>You are not admin</h1>
-}
+
 </>
 
 

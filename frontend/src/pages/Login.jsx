@@ -21,13 +21,8 @@ function Login() {
             localStorage.setItem('token', jwtToken);
             localStorage.setItem('loggedInUser', name);
             localStorage.setItem('loggedInId',_id);
-            setTimeout(() => {
-              if(isAdmin==true){
-                navigate('/admin')
-              }
-             else   navigate('/home')
-            }, 1000)
-           }
+             navigate('/home') 
+          }
            else if (error) {
             const details = error?.details[0].message;
           alert(details);
